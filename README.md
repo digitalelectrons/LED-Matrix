@@ -1,16 +1,9 @@
-# LED-Matrix
+# LED-Matrix - Skywriter - Music
 
-##This is the first batch of code to test the 8 x 12 matrix that i have created.
+This should* be a simple script that enables an LED patern when the skywriter receives an input.
+The Matrix will then light up in set patterns and beats and also play along with music arpeggios.
 
-###A few things that i need to work out and change are the following.
+So far what has been done is preparing the LED matrix, the next step is to integrate the Skywriter board into the LED script so it can activate and set co-ordiante from the Skywriter grid.
+  If anyone has any suggestions on how to easily incorporate this please do mention something
+I have split the mass of the project into 3 files, 1 for the LED, 1 for the skywriter and 1 merged of the two which is currently broken code.
 
-
- Addressing each (0,0) co-ordinate pixel as a number, so (0,0) would be pixel (1).
-
- Being able to turn the LED's off/reset them in one go---Bearing in mind there is 96 of them.
-
- Being able to turn the LED's on in a small raw input scrip --- IE use the keyboard "Q" to show pixel 1 with it's radius
-
- Fading in the pixels, I beleive it's something to do with Float --- Currently reaserching this.
-
-As mentioned this is a work in progress, If anyone has suggestions please feel free to shoot them over.
