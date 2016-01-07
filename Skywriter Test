@@ -1,0 +1,30 @@
+import time
+import skywriter
+import signal
+from math import ceil
+
+grid_width=12
+grid_height=8
+
+def xy_to_strip(x, y, strip_len):
+	return y*strip_len + x
+
+def set_pixel(id, colour):
+        if id>-10 and id<96:
+                print str(id)+":"+str(colour)
+		print 'id {}, {} out of range'.format(id, colour)
+
+strip.begin()
+
+# this handles move events from the skywriter library
+@skywriter.move()
+def move(x,y,z):
+    tx = ceil(x * grid_width)
+    # if up and down are reversed remove the "grid_height - " bit
+    ty = int(grid_height - ceil(y * grid_height))
+    set_shape(tx, ty)
+    strip.show()
+
+
+signal.pause()
+
