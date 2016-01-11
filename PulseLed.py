@@ -12,8 +12,8 @@ LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
 LED_DMA        = 5       # DMA channel to use for generating signal (try 5)
 LED_BRIGHTNESS = 50      # Set to 0 for darkest and 255 for brightest
 LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
-WIDTH          = 6
-HEIGHT         = 4
+WIDTH          = 12
+HEIGHT         = 8
 LED_COUNT = WIDTH * HEIGHT 
 # colours
 off = Color(0, 0, 0)
@@ -53,15 +53,25 @@ def pulse(q):
             forward = 0
             brightness = 255
         
-        #Do Bokeh stuff here instead of setting all the pixels the same.
-        color = Color(128, 128, 128)
-        for i in range(strip.numPixels()):
-            strip.setPixelColor(i, color)
-        #Finished pixel-fiddling, set OVERALL brightness.
-        strip.setBrightness(brightness)
-        strip.show()
-        time.sleep(0.01) #10ms
-
+def set_shape(x, y):
+    for i in (-3, -2, -1, 0, 1, 2, 3):
+        for j in (-3, -2, -1, 0, 1, 2, 3):
+            mode = abs(i)+ abs(j)
+            if mode == 0:
+                color = Color(250, 200, 200)
+            if mode == 1:
+                color = Color(250, 0, 100)
+            if mode == 2:
+                color = Color(100, 0, 100)
+            if mode == 3:
+                color = Color(50, 0, 50)
+            if mode == 4:
+                color = Color(25, 0, 25)
+            if mode == 5:
+                color = Color(10, 0, 10)
+            if 0 <= x+i <= WIDTH and 0 <= y+j <= HEIGHT:
+                set_pixel(xy_to_strip(x+i, y+j, 8), color)
+                #No idea if this will work ----- set_shape(x, y) ----- needs to be input from skywriter
 
 
 @skywriter.move()
