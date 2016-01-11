@@ -29,6 +29,37 @@ q = Queue.Queue()
 
 strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS)
 
+def xy_to_strip(x, y, strip_len):
+    return x * strip_len + y
+
+def set_pixel(id, colour):
+    if id>-10 and id<96:
+        strip.setPixelColor(id, colour)
+        print 'id {}, {} '.format(id, colour)
+    else:
+        print 'id {}, {} out of range'.format(id, colour)
+
+def set_shape(x, y):
+    for i in (-3, -2, -1, 0, 1, 2, 3):
+        for j in (-3, -2, -1, 0, 1, 2, 3):
+            mode = abs(i)+ abs(j)
+            if mode == 0:
+                color = Color(250, 200, 200)
+            if mode == 1:
+                color = Color(250, 0, 100)
+            if mode == 2:
+                color = Color(100, 0, 100)
+            if mode == 3:
+                color = Color(50, 0, 50)
+            if mode == 4:
+                color = Color(25, 0, 25)
+            if mode == 5:
+                color = Color(10, 0, 10)
+            if 0 <= x+i <= WIDTH and 0 <= y+j <= HEIGHT:
+                set_pixel(xy_to_strip(x+i, y+j, 8), color)
+                #No idea if this will work ----- set_shape(x, y) ----- needs to be input from skywriter
+
+
 def pulse(q):
     forward = 1
     brightness = 0
@@ -52,26 +83,14 @@ def pulse(q):
         if brightness >= 255:
             forward = 0
             brightness = 255
+
+        #Do Bokeh stuff here instead of setting all the pixels the same.
+        set_shape(loc[0], loc[1])
+        #Finished pixel-fiddling, set OVERALL brightness.
+        strip.setBrightness(brightness)
+        strip.show()
+        time.sleep(0.01) #10ms
         
-def set_shape(x, y):
-    for i in (-3, -2, -1, 0, 1, 2, 3):
-        for j in (-3, -2, -1, 0, 1, 2, 3):
-            mode = abs(i)+ abs(j)
-            if mode == 0:
-                color = Color(250, 200, 200)
-            if mode == 1:
-                color = Color(250, 0, 100)
-            if mode == 2:
-                color = Color(100, 0, 100)
-            if mode == 3:
-                color = Color(50, 0, 50)
-            if mode == 4:
-                color = Color(25, 0, 25)
-            if mode == 5:
-                color = Color(10, 0, 10)
-            if 0 <= x+i <= WIDTH and 0 <= y+j <= HEIGHT:
-                set_pixel(xy_to_strip(x+i, y+j, 8), color)
-                #No idea if this will work ----- set_shape(x, y) ----- needs to be input from skywriter
 
 
 @skywriter.move()
